@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp-1.10
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      name: webapp
+      version: "1.10"
+  template:
+    metadata:
+      labels:
+        name: webapp
+        version: "1.10"
+    spec:
+      containers:
+      - image: gcr.io/kubernetes-demo-379306/webapp:v1
+        name: webapp
+        imagePullPolicy: Always
+        resources: {}
+        ports:
+          - containerPort: 80
+status: {}
