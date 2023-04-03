@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "blue-green.name" . }}-service-blue
+  labels:
+    app: {{ include "blue-green.name" . }}
+    chart: {{ include "blue-green.chart" . }}
+    release: {{ .Release.Name }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+      name: http
+  selector:
+    app: {{ include "blue-green.name" . }}
+    release: {{ .Release.Name }}
+    slot: blue

@@ -1,0 +1,34 @@
+{{ if .Values.blue.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: {{ template "blue-green.fullname" . }}-blue
+    labels:
+      release: {{ .Release.Name }}
+      chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+      app: {{ template "blue-green.name" . }}
+      version: {{ .Values.blue.version | quote }}
+spec:
+  replicas: {{.Values.replicaCount}}
+  selector:
+    matchLabels:
+      app: {{ template "blue-green.name" . }}
+      version: {{.Values.blue.version | quote}}
+      release: {{ .Release.Name }}
+      slot: blue
+  template:
+    metadata:
+      labels:
+        name: {{.Values.application.name}}-blue
+        version: {{.Values.blue.version | quote}}
+        release: {{ .Release.Name }}
+        slot: blue
+    spec:
+      containers:
+      - image: {{.Values.blue.repository}}
+        name: {{ template "blue-green.name" . }}-blue
+        imagePullPolicy: {{.Values.blue.pullPolicy}}
+        resources: {}
+        ports:
+          - containerPort: 80 
+{{ end }}
