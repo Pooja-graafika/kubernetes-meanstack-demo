@@ -1,0 +1,12 @@
+# Default values for webapp.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 5
+
+image:
+  repository: gcr.io/kubernetes-demo-379306/webapp1:v1
+  pullPolicy: Always
+
+application:
+  name: webapp
